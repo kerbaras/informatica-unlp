@@ -245,19 +245,45 @@ $$ AlumnosAprob \bowtie ALUMNO $$
 ###7) Dados los siguientes esquemas	
 
 ```markdown
-PDA (**imei**, marca, numero_serie)
-JURISDICCION (**id_jurisdiccion**, nombre)
-CONDUCTOR (**dni_conductor**, nombre, apellido, id_Jurisdiccion)
-TIPO_INFRACCION (**codigo**, descripcion, puntos, tipo)
-ACTA_INFRACCION (**#acta**, imei, fecha, dni_conductor, id_Jurisdiccion)
-INFRACCION_ACTA (**#acta**, **codigo**)
+PDA (**imei**, marca, serie)
+JURISDICCION (**jurisdiccion**, nombre)
+CONDUCTOR (**dni**, nombre, apellido, jurisdiccion)
+TIPO (**codigo**, descripcion, puntos, tipo)
+ACTA (**#acta**, imei, fecha, dni, jurisdiccion)
+INFRACCION (**#acta**, **codigo**)
 ```
 
 #### a) Obtener los códigos de los tipos de infracciones que no fueron utilizadas en las actas labradas de la jurisdicción “La Plata”.
 
-####b) Obtener los #Actas en donde el conductor pertenezca a la misma jurisdicción del lugar del labrado del acta
+$$ ActasLP \Longleftarrow ACTA \bowtie_{ ACTA.jurisdiccion = JURISDICCION.jurisdiccion\ \land\ nombre = "LaPlata" } JURISDICCION  $$
 
-####c) Obtener los imei de PDA que han labrado actas de tipo “Velocidad” sólo en la ciudad de “Mar del Plata”.
+$$ ActasLP \Longleftarrow \pi_{ \#acta }( ActasLP ) $$
+
+$$ CodsLP \Longleftarrow \pi_{ codigo }( ActasLP \bowtie INFRACCION )$$
+
+$$ \pi_{ codigo }( TIPO ) - CodsLP $$
+
+#### b) Obtener los #Actas en donde el conductor pertenezca a la misma jurisdicción del lugar del labrado del acta
+
+$$ Actas \Longleftarrow \rho_{a} ( ACTA ) \bowtie_{ a.dni = c.dni \ \land\ a.jurisdiccion = c.jurisdiccion } \rho_c (CONDUCTOR) $$
+
+$$ \pi_{ \#acta } ( Actas ) $$
+
+#### c) Obtener los imei de PDA que han labrado actas de tipo “Velocidad” sólo en la ciudad de “Mar del Plata”.
+
+$$ Otras \Longleftarrow \pi_{jurisdiccion}( \sigma_{ nombre \neq "Mar\ del\ Plata"}( JURISDICCION ) ) $$
+
+$$ ActasOtras \Longleftarrow \pi_{ \#acta }( ACTAS \bowtie Otras ) $$
+
+$$ Velocidad \Longleftarrow \pi_{ codigo }( \sigma_{ tipo="Velocidad" }( TIPO  ) ) $$ 
+
+$$ ActasVelocidad \Longleftarrow \pi_{ \#acta }( INFRACCION \bowtie Velocidad ) $$  
+
+$$ ActasVelocidadOtras \Longleftarrow ActasVelocidad \bowtie ActasOtras $$
+
+$$ Actas \Longleftarrow \pi_{ \#acta }( ACTA ) - ActasVelocidadOtras $$
+
+$$ \pi_{ imei }( Actas \bowtie ACTA ) $$ 
 
 ###8) Dados los siguientes esquemas
 
@@ -299,6 +325,6 @@ USUARIO (**id_usuario**, nombre, apellido)
 PASAJERO (**id_viaje**, **id_usuario**)
 ```
 
-####a) Obtener fecha y hora de los viajes posteriores al 30/11 que vayan desde La Plata hacia Rosario y que no tengan pasajeros registrados.
+####a) Obtener fecha y hora de los viajes posteriores al 30/11 que vayan desde La Plata hacia Rosario y que no tengan pasajeros registrados.	
 
 ####b) Obtener el identificador del usuario que posee el auto con la capacidad más alta.
