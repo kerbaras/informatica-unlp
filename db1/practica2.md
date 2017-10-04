@@ -19,7 +19,7 @@ $$ \pi_{dni, nombre,telefono}(DUEÑO) - \pi_{dni, nombre,telefono}(CHOFER)$$
 
 $$ C \Longleftarrow \sigma_{fecha\_licencia\_hasta < "2018-01-01" }(CHOFER)$$
 
-$$ \pi_{id_chofer, patente}( C \bowtie AUTO) $$
+$$ \pi_{id\_chofer, patente}( C \bowtie AUTO) $$
 
 ### 2) Dados los siguientes esquemas
 
@@ -389,4 +389,4 @@ $$ Capacidad \Longleftarrow \pi_{ usuario, capacidad }( VEHICULO ) $$
 
 $$ Minimas \Longleftarrow \pi_{c1.usuario,\ c1.capacidad}( \rho_{\ c1 }( Capacidad ) \bowtie_{\ c1.capacidad\ <\ c2.cacpacidad} \rho_{\ c2 }( Capacidad ) ) $$
 
-$$ \pi_{ usuario } ( Capacidad - Minimas ) $$
+$$ \pi_{ usuario } ( Capacidad - Minimas ) $$ 
