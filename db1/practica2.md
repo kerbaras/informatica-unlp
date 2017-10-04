@@ -288,17 +288,37 @@ $$ \pi_{ imei }( Actas \bowtie ACTA ) $$
 ###8) Dados los siguientes esquemas
 
 ```markdown
-USUARIO (**id_usuario**, email, nombre)
-FORMULARIO (**id_formulario**, titulo, fecha_publicacion)
-USUARIO_PARTICIPA (**id_usuario**, **id_formulario**)
-APORTE (**id_aporte**, id_formulario, id_usuario, nombre, tipo, datos, valoracion)
+USUARIO (**usuario**, email, nombre)
+FORMULARIO (**formulario**, titulo, fecha)
+PARTICIPACION (**usuario**, **formulario**)
+APORTE (**aporte**, formulario, usuario, nombre, tipo, datos, valoracion)
 ```
 
 ####a) Obtener los nombres de los usuarios que hicieron aportes en todos los formularios, independientemente de si participan o no en el mismo.
 
+$$ Forms \Longleftarrow \pi_{ formulario }( FORMULARIO ) $$
+
+$$ Aportes \Longleftarrow \pi_{usuario,\ formulario}( APORTE )\ \%\ Forms$$
+
+$$ \pi_{ nombre }( USUARIO \bowtie Aportes ) $$
+
 ####b) Obtener los nombres de los usuarios que han realizado aportes en todos los formularios en los que participa.
 
-####c) Obtener el identificador del usuario que realizo la publicación con mayor valoración.
+$$ Aportes \Longleftarrow \pi_{usuario,\ formulario}( APORTE ) $$
+
+$$ Extras \Longleftarrow \pi_{ usuario }( PARTICIPACION - Aportes ) $$
+
+$$ Usuarios \Longleftarrow \pi_{ usuario }( USUARIO ) - Extras $$
+
+$$ \pi_{ nombre }( USUARIO \bowtie Usuarios ) $$
+
+#### c) Obtener el identificador del usuario que realizo la publicación con mayor valoración.
+
+$$ Valoracion \Longleftarrow \pi_{ usuario, valoracion }( APORTE ) $$
+
+$$ Minimas \Longleftarrow \pi_{ v1.usuario,\ v1.valoracion }( \rho_{\ v1 }( Valoracion ) \bowtie_{\ v1.valoracion < v2.valoracion } \rho_{\ v2 }( Valoracion ) ) $$
+
+$$ \pi_{ usuario } ( Valoracion - Minimas ) $$
 
 ###9) Dados los siguientes esquemas
 
