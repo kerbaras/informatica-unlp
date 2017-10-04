@@ -303,17 +303,37 @@ APORTE (**id_aporte**, id_formulario, id_usuario, nombre, tipo, datos, valoracio
 ###9) Dados los siguientes esquemas
 
 ```markdown
-IDIOMA (**id_idioma**, nombre)
-DICCIONARIO (**id_diccionario**, id_lenguaje, fecha_version)
-USUARIO (**id_usuario**, nombre, fecha_ingreso)
-DEFINICION (**id_diccionario**, **id_usuario**, **palabra**, significado)
+IDIOMA (**idioma**, nombre)
+DICCIONARIO (**diccionario**, lenguaje, fecha)
+USUARIO (**usuario**, nombre, ingreso)
+DEFINICION (**diccionario**, **usuario**, **palabra**, significado)
 ```
 
-####a) Obtener los nombres de los usuarios que hayan ingresado antes del 2010 y no hayan aportado ninguna definición
+#### a) Obtener los nombres de los usuarios que hayan ingresado antes del 2010 y no hayan aportado ninguna definición
 
-####b) Obtener los nombres de todos los usuarios que hayan aportado alguna definición para el idioma Español
+$$ Usuarios \Longleftarrow \pi_{nombre, usuario}( \sigma_{ ingreso < "2010-01-01"}( USUARIO ) ) $$
 
-####c) Obtener el nombre de los idiomas que no tengan diccionarios posteriores al 2015
+$$ Aportes \Longleftarrow \pi_{ nombre, usuario }( DEFINICION \bowtie Usuarios ) $$
+
+$$ \pi_{ nombre }( Usuarios - Aportes ) $$ 
+
+#### b) Obtener los nombres de todos los usuarios que hayan aportado alguna definición para el idioma Español
+
+$$ es \Longleftarrow \pi_{ lenguaje }( \sigma_{ nombre = "Español" }( \rho_{\ lenguaje \leftarrow idioma }( IDIOMA ) ) ) $$
+
+$$ esDic \Longleftarrow \pi_{ diccionario }( DICCIONARIO \bowtie es ) $$
+
+$$ Usuarios \Longleftarrow \pi_{ usuario }( DEFINICION \bowtie esDic ) $$
+
+$$ \pi_{ nombre }( USUARIO \bowtie Usuarios ) $$
+
+#### c) Obtener el nombre de los idiomas que no tengan diccionarios posteriores al 2015
+
+$$ Dics \Longleftarrow \pi_{ idioma }( \sigma_{ fecha > "2015-12-31" }( \rho_{\ idioma \leftarrow lenguaje }( DICCIONARIO ) ) ) $$
+
+$$ Idiomas \Longleftarrow \pi_{ idioma }( IDIOMAS ) - Dics $$
+
+$$ \pi_{ nombre }( Idiomas \bowtie IDIOMAS ) $$
 
 ###10) Dados los siguientes esquemas
 
@@ -331,7 +351,7 @@ $$ LaPlata \Longleftarrow \pi_{lugar}( \sigma_{ nombre = "La\ Plata" }( LUGAR ) 
 
 $$ Rosario \Longleftarrow \pi_{lugar}( \sigma_{ nombre = "Rosario" }( LUGAR ) ) $$
 
-$$ Viajes \Longleftarrow VIAJE \bowtie_{ VIAJE.destino = lugar\ \land\ fecha\ >\ "30/11" } Rosario $$
+$$ Viajes \Longleftarrow VIAJE \bowtie_{ VIAJE.destino = lugar\ \land\ fecha\ >\ "2017-11-30" } Rosario $$
 
 $$ Viajes \Longleftarrow \pi_{viaje} ( Viajes \bowtie_{ Viajes.origen = lugar\ } LaPlata ) $$
 
