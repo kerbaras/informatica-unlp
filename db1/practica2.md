@@ -318,13 +318,35 @@ DEFINICION (**id_diccionario**, **id_usuario**, **palabra**, significado)
 ###10) Dados los siguientes esquemas
 
 ```markdown
-VIAJE (**id_viaje**, fecha, hora, id_lugar_origen, id_lugar_destino, id_vehiculo)
-LUGAR (**id_lugar**, nombre)
-VEHICULO (**id_vehiculo**, id_usuario, capacidad)
-USUARIO (**id_usuario**, nombre, apellido)
-PASAJERO (**id_viaje**, **id_usuario**)
+VIAJE (**viaje**, fecha, hora, origen, destino, vehiculo)
+LUGAR (**lugar**, nombre)
+VEHICULO (**vehiculo**, usuario, capacidad)
+USUARIO (**usuario**, nombre, apellido)
+PASAJERO (**viaje**, **usuario**)
 ```
 
-####a) Obtener fecha y hora de los viajes posteriores al 30/11 que vayan desde La Plata hacia Rosario y que no tengan pasajeros registrados.	
+#### a) Obtener fecha y hora de los viajes posteriores al 30/11 que vayan desde La Plata hacia Rosario y que no tengan pasajeros registrados.
 
-####b) Obtener el identificador del usuario que posee el auto con la capacidad más alta.
+$$ LaPlata \Longleftarrow \pi_{lugar}( \sigma_{ nombre = "La\ Plata" }( LUGAR ) ) $$
+
+$$ Rosario \Longleftarrow \pi_{lugar}( \sigma_{ nombre = "Rosario" }( LUGAR ) ) $$
+
+$$ Viajes \Longleftarrow VIAJE \bowtie_{ VIAJE.destino = lugar\ \land\ fecha\ >\ "30/11" } Rosario $$
+
+$$ Viajes \Longleftarrow \pi_{viaje} ( Viajes \bowtie_{ Viajes.origen = lugar\ } LaPlata ) $$
+
+
+
+$$ VcP \Longleftarrow \pi_{ viaje } ( PASAJERO \bowtie Viajes ) $$
+
+$$ Viajes \Longleftarrow Viajes - VcP $$
+
+$$ \pi_{ fecha,\ hora }( VIAJE \bowtie Viajes ) $$
+
+#### b) Obtener el identificador del usuario que posee el auto con la capacidad más alta.
+
+$$ Capacidad \Longleftarrow \pi_{ usuario, capacidad }( VEHICULO ) $$
+
+$$ Minimas \Longleftarrow \pi_{c1.usuario,\ c1.capacidad}( \rho_{\ c1 }( Capacidad ) \bowtie_{\ c1.capacidad\ <\ c2.cacpacidad} \rho_{\ c2 }( Capacidad ) ) $$
+
+$$ \pi_{ usuario } ( Capacidad - Minimas ) $$
