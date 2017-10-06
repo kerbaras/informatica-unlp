@@ -12,7 +12,7 @@ LIBRERIAS_ASOCIADAS ( idLibreria, nombreLibreria, idArticulo, nombreArticulo, id
 nombreComponente, idFabricanteArticulo, idDueño)
 ```
 
-**Donde:**
+##### Donde:
 
 - Para cada librería se conoce su identificador, el cual es único. Además se conoce su nombre, que puede repetirse
     en distintas librerías.
@@ -26,11 +26,11 @@ nombreComponente, idFabricanteArticulo, idDueño)
 - Para cada componente de un artículo de una librería se conoce su nombre.
 - Cada artículo de una librería tiene varios fabricantes que lo proveen (idFabricanteArticulo)
 
-**Clave Candidata:**
+##### Clave Candidata:
 ```
 Cc1: (idLibreria, idArticulo, idComponente, idFabricanteArtículo, idDueño)
 ```
-**DFs**
+##### DFs
 
 ```
 idLibreria -> nombreLibreria
@@ -46,7 +46,7 @@ cargaHorariaEnOficina, nombreResponsableOficina, añoIngresoOficina, idActividad
 nombreActividadOficina, dniEmpleado)
 ```
 
-**Donde:**
+##### Donde:
 
 - El idEmpleado es único por oficina. El mismo idEmpleado no se repite en diferentes oficinas
 - Cada empleado tiene asignada una única carga horaria para la oficina en la que trabaja e ingreso a la oficina en
@@ -59,14 +59,14 @@ nombreActividadOficina, dniEmpleado)
 - idActividadEmpleadoOficina es cada actividad que un empleado realiza en la oficina
 
 
-**Claves candidatas:**
+##### Claves candidatas:
 
 ```
 Cc1: (idEmpleado, idResponsableOficina, idActividadEmpleadoOficina)
 Cc2: (dniEmpleado, idResponsableOficina, idActividadEmpleadoOficina)
 ```
 
-**Dependencias funcionales:**
+##### Dependencias funcionales:
 
 ```
 idOficina -> nombreOficina
@@ -88,7 +88,7 @@ idPaciente, apynPaciente, tipoDocP, nroDocP, fechaNacP, idObraSoc, nroAfiliado, 
 nombreOS, direcciónOS, teléfonoOS, idÓrgano, descripción, idEstudio, resultado, fechaEstudio, informe)
 ```
 
-**Donde**
+##### Donde
 
 - De cada médico se conoce su nombre y apellido, tipo y número de documento, fecha de nacimiento, matricula,
     dirección y teléfono.
@@ -106,9 +106,9 @@ nombreOS, direcciónOS, teléfonoOS, idÓrgano, descripción, idEstudio, resulta
 AEROPUERTO (#aeropuerto, #pista, fecha, #avion)
 ```
 
-**Donde:**
+##### Donde:
 
-- #aeropuerto y #avion son únicos, pero el #pista se puede repetir para distintos aeropuertos.
+- \#aeropuerto y \#avion son únicos, pero el #pista se puede repetir para distintos aeropuertos.
 - fecha representa la fecha de despegue de un avión. Cada avión tiene como máximo un despegue diario en
     un mismo aeropuerto.
 - Un avión puede realizar despegues de distintos aeropuertos
@@ -119,10 +119,10 @@ AEROPUERTO (#aeropuerto, #pista, fecha, #avion)
 DISPOSITIVOS (Marca_id, descripMarca, modelo_id, descripModelo, equipo_tipo_id, descripEquipoTipo,
 empresa_id, nombreEmpresa, cuit, direcciónEmpresa, usuario_id, apyn, nro_doc, direcciónUsuario, cuil,
 plan_id, descripPlan, importe, equipo_id, imei, fec_alta, fec_baja, observaciones, línea_id, nroContrato,
-fec_alta_linea, fec_baja_linea)**
+fec_alta_linea, fec_baja_linea)
 ```
 
-**Donde**
+##### Donde
 
 - Para cada equipo interesa conocer su tipo, modelo, imei, fecha en que se dio de alta, fecha en que se da de baja
     y las observaciones que sean necesarias.
@@ -161,7 +161,7 @@ EMPRESA_COLECTIVO (#Línea, #Ramal, #Colectivo, dniChofer, dniInspector, dniEmpl
 nombreChofer, nombreInspector, nombreEmpleado)
 ```
 
-**Donde**
+##### Donde
 
 - Una línea posee varios ramales
 - Los #Ramal no se repiten en distintas líneas
@@ -179,7 +179,7 @@ ciudadHospital, directorHospital, fechaInicioInternacion, cantDiasIntenacion, do
 insumoEmpleadoInternación)
 ```
 
-**Donde**
+##### Donde
 
 - cantidadHabitaciones es la cantidad de habitaciones que hay en cada hospital
 - direcciónInternacionPaciente y telefonoInternacionPaciente, indican la dirección y el teléfono que deja un
@@ -199,7 +199,7 @@ INFRACCIONES_REALIZADAS (#auto, modeloAuto, #cedula, #conductor, fechaVto, #prop
 fechaInfraccion, tipoInfraccion)
 ```
 
-**Donde**
+##### Donde
 
 - un auto tiene una o más cédulas asociadas que corresponden a los conductores autorizados. Cada cédula se
     asocia a un único auto y a un único conductor, y tiene una fecha de vencimiento.
@@ -218,7 +218,7 @@ fechaLlegada, horaPartida, horaLlegada, modeloAvión, #Asiento, tipoComida, comp
 telCompañía)
 ```
 
-**Donde**
+##### Donde
 
 - Una reserva puede involucrar uno o varios pasajeros (por ejemplo un tour).
 - Si bien todos los pasajeros de una reserva viajan en la misma clase del mismo vuelo, cada uno de ellos decide el
@@ -250,7 +250,7 @@ nombrePaisPuertoIntermedio, posicionActual, fechaPosicionActual, nYApPasajero, d
 puertoInicioPasajero, puertoFinalPasajero)
 ```
 
-**Donde**
+##### Donde
 
 - El #Viaje es un número consecutivo que identifica cada partida de cada buque.
 - Un buque hace varios viajes. El #Viaje se puede repetir para distintos buques
