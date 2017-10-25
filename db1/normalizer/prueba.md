@@ -6,7 +6,7 @@ Se buscand dependencias funcionales en la relacion para luego determinar las cla
 
 **Dependencias funcionales:**
 ```
-df1: {tipoBuque}-->{tonelaje, tipoCasco}
+df1: {tipoBuque}-->{tipoCasco, tonelaje}
 df2: {nombreBuque}-->{tipoBuque}
 df3: {dniDueño}-->{nYApDueño}
 df4: {puertoOrigen}-->{nombrePaisPuertoOrigen}
@@ -19,25 +19,25 @@ df10: {fechaPosicionActual, nombreBuque}-->{posicionActual}
 ```
 **Clave Candidata:**
 ```
-CC: {dniPasajero, fechaPosicionActual, #Viaje, dniDueño, puertoIntermedio, nombreBuque}
+CC: {dniDueño, #Viaje, dniPasajero, puertoIntermedio, fechaPosicionActual, nombreBuque}
 ```
 
 Se plantea ahora una nueva relacion  `R0`  para realizar el proceso de normalizacion:
 
 ```markdown
-R0: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**, posicionActual, nYApPasajero, puertoFinalPasajero, nYApDueño, puertoOrigen, tipoCasco, puertoDestino, nombrePaisPuertoIntermedio, tipoBuque, puertoInicioPasajero, tonelaje, dirPasajero, nomPaísPuertoDestino, nombrePaisPuertoOrigen)
+R0: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**, nombrePaisPuertoOrigen, puertoInicioPasajero, dirPasajero, posicionActual, puertoFinalPasajero, nombrePaisPuertoIntermedio, puertoDestino, nomPaísPuertoDestino, tonelaje, tipoBuque, puertoOrigen, nYApPasajero, nYApDueño, tipoCasco)
 ```
 
 **¿ `R0`  está en bcnf?**
-No, exite la dependencia funciona `{tipoBuque}-->{tonelaje, tipoCasco}` que no es trivail ni superclave
+No, exite la dependencia funciona `{tipoBuque}-->{tipoCasco, tonelaje}` que no es trivail ni superclave
 Se realiza entonces el particionado de esta relación por medio de dicha dependencia funcioanl
 
 Se proponen los siguientes esquemas:
 
 
 ```markdown
-R1: (**tipoBuque**, tonelaje, tipoCasco)
-R2: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**, posicionActual, nYApPasajero, puertoFinalPasajero, nYApDueño, puertoOrigen, puertoDestino, nombrePaisPuertoIntermedio, tipoBuque, puertoInicioPasajero, dirPasajero, nomPaísPuertoDestino, nombrePaisPuertoOrigen)
+R1: (**tipoBuque**, tipoCasco, tonelaje)
+R2: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**, nombrePaisPuertoOrigen, puertoFinalPasajero, dirPasajero, posicionActual, puertoInicioPasajero, nombrePaisPuertoIntermedio, puertoDestino, nomPaísPuertoDestino, tipoBuque, puertoOrigen, nYApPasajero, nYApDueño)
 ```
 
 
@@ -57,7 +57,7 @@ Se proponen los siguientes esquemas:
 
 ```markdown
 R3: (**nombreBuque**, tipoBuque)
-R4: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**, posicionActual, nYApPasajero, puertoFinalPasajero, nYApDueño, puertoOrigen, puertoDestino, nombrePaisPuertoIntermedio, puertoInicioPasajero, dirPasajero, nomPaísPuertoDestino, nombrePaisPuertoOrigen)
+R4: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**, nombrePaisPuertoOrigen, puertoFinalPasajero, dirPasajero, posicionActual, puertoInicioPasajero, nombrePaisPuertoIntermedio, puertoDestino, nomPaísPuertoDestino, puertoOrigen, nYApPasajero, nYApDueño)
 ```
 
 
@@ -77,7 +77,7 @@ Se proponen los siguientes esquemas:
 
 ```markdown
 R5: (**dniDueño**, nYApDueño)
-R6: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**, posicionActual, nYApPasajero, puertoFinalPasajero, puertoOrigen, puertoDestino, nombrePaisPuertoIntermedio, puertoInicioPasajero, dirPasajero, nomPaísPuertoDestino, nombrePaisPuertoOrigen)
+R6: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**, nombrePaisPuertoOrigen, puertoFinalPasajero, dirPasajero, posicionActual, puertoInicioPasajero, nombrePaisPuertoIntermedio, puertoDestino, nomPaísPuertoDestino, puertoOrigen, nYApPasajero)
 ```
 
 
@@ -97,7 +97,7 @@ Se proponen los siguientes esquemas:
 
 ```markdown
 R7: (**puertoOrigen**, nombrePaisPuertoOrigen)
-R8: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**, posicionActual, nYApPasajero, puertoFinalPasajero, puertoOrigen, puertoDestino, nombrePaisPuertoIntermedio, puertoInicioPasajero, dirPasajero, nomPaísPuertoDestino)
+R8: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**, puertoFinalPasajero, dirPasajero, posicionActual, puertoInicioPasajero, nombrePaisPuertoIntermedio, puertoDestino, nomPaísPuertoDestino, puertoOrigen, nYApPasajero)
 ```
 
 
@@ -117,7 +117,7 @@ Se proponen los siguientes esquemas:
 
 ```markdown
 R9: (**puertoDestino**, nomPaísPuertoDestino)
-R10: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**, posicionActual, nYApPasajero, puertoFinalPasajero, puertoOrigen, puertoDestino, nombrePaisPuertoIntermedio, puertoInicioPasajero, dirPasajero)
+R10: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**, dirPasajero, puertoInicioPasajero, puertoFinalPasajero, posicionActual, nombrePaisPuertoIntermedio, puertoDestino, puertoOrigen, nYApPasajero)
 ```
 
 
@@ -137,7 +137,7 @@ Se proponen los siguientes esquemas:
 
 ```markdown
 R11: (**puertoIntermedio**, nombrePaisPuertoIntermedio)
-R12: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**, posicionActual, nYApPasajero, puertoFinalPasajero, puertoOrigen, puertoDestino, puertoInicioPasajero, dirPasajero)
+R12: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**, dirPasajero, puertoInicioPasajero, puertoFinalPasajero, posicionActual, puertoDestino, puertoOrigen, nYApPasajero)
 ```
 
 
@@ -157,7 +157,7 @@ Se proponen los siguientes esquemas:
 
 ```markdown
 R13: (**#Viaje**, **nombreBuque**, puertoOrigen, puertoDestino)
-R14: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**, posicionActual, nYApPasajero, puertoFinalPasajero, puertoInicioPasajero, dirPasajero)
+R14: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**, dirPasajero, puertoInicioPasajero, puertoFinalPasajero, posicionActual, nYApPasajero)
 ```
 
 
@@ -177,7 +177,7 @@ Se proponen los siguientes esquemas:
 
 ```markdown
 R15: (**dniPasajero**, nYApPasajero, dirPasajero)
-R16: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**, posicionActual, puertoInicioPasajero, puertoFinalPasajero)
+R16: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**, puertoInicioPasajero, puertoFinalPasajero, posicionActual)
 ```
 
 
@@ -197,7 +197,7 @@ Se proponen los siguientes esquemas:
 
 ```markdown
 R17: (**dniPasajero**, **#Viaje**, **nombreBuque**, puertoInicioPasajero, puertoFinalPasajero)
-R18: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**, posicionActual)
+R18: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**, posicionActual)
 ```
 
 
@@ -217,7 +217,7 @@ Se proponen los siguientes esquemas:
 
 ```markdown
 R19: (**fechaPosicionActual**, **nombreBuque**, posicionActual)
-R20: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**)
+R20: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**)
 ```
 
 
@@ -232,7 +232,7 @@ El esquema final en en bcnf sera:
 
 
 ```markdown
-R1: (**tipoBuque**, tonelaje, tipoCasco)
+R1: (**tipoBuque**, tipoCasco, tonelaje)
 R3: (**nombreBuque**, tipoBuque)
 R5: (**dniDueño**, nYApDueño)
 R7: (**puertoOrigen**, nombrePaisPuertoOrigen)
@@ -242,6 +242,6 @@ R13: (**#Viaje**, **nombreBuque**, puertoOrigen, puertoDestino)
 R15: (**dniPasajero**, nYApPasajero, dirPasajero)
 R17: (**dniPasajero**, **#Viaje**, **nombreBuque**, puertoInicioPasajero, puertoFinalPasajero)
 R19: (**fechaPosicionActual**, **nombreBuque**, posicionActual)
-R20: (**dniPasajero**, **fechaPosicionActual**, **#Viaje**, **dniDueño**, **puertoIntermedio**, **nombreBuque**)
+R20: (**dniDueño**, **#Viaje**, **dniPasajero**, **puertoIntermedio**, **fechaPosicionActual**, **nombreBuque**)
 ```
 
