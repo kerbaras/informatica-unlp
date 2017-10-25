@@ -181,12 +181,17 @@ def to_bcnf(relation, dependencies, key=None, file=None):
                 print("No perdi informacion")
             bcnf_process(p1)
             bcnf_process(p2)
+
         elif len(dependencies) > 0:
-            print(f'{original} esta en bcnf')
+            text.append(f'Si, todas sus dependencias funcionales son o triviales o sus determinantes son superclave')
+            print_list_block(text, file)
             schema.append(original)
+
         else:
-            print(f'{original} no hay mas dependencias')
+            text.append(f'Si, todas sus dependencias funcionales son o triviales o sus determinantes son superclave')
+            print_list_block(text, file)
             schema.append(original)
+
     p0 = Partition(key, relation, 0)
 
     print_block(f'Se plantea ahora una nueva relacion {p0.md_name()} para realizar el proceso de normalizacion:',file)
@@ -210,24 +215,24 @@ def normalize(relation, dependencies, filename, point=0):
 
         to_bcnf(relation, dependencies, key, file)
 
+if(__name__ == '__init__'):
+    relation = { 'nombreBuque', 'nYApDueño', 'dniDueño', 'tipoBuque', 'tonelaje', 'tipoCasco', '#Viaje', 'puertoOrigen',
+                'puertoDestino', 'puertoIntermedio', 'nomPaísPuertoDestino', 'nombrePaisPuertoOrigen',
+                'nombrePaisPuertoIntermedio', 'posicionActual', 'fechaPosicionActual', 'nYApPasajero', 
+                'dniPasajero', 'dirPasajero', 'puertoInicioPasajero', 'puertoFinalPasajero' }
 
-relation = { 'nombreBuque', 'nYApDueño', 'dniDueño', 'tipoBuque', 'tonelaje', 'tipoCasco', '#Viaje', 'puertoOrigen',
-             'puertoDestino', 'puertoIntermedio', 'nomPaísPuertoDestino', 'nombrePaisPuertoOrigen',
-             'nombrePaisPuertoIntermedio', 'posicionActual', 'fechaPosicionActual', 'nYApPasajero', 
-             'dniPasajero', 'dirPasajero', 'puertoInicioPasajero', 'puertoFinalPasajero' }
-
-dependencies = [
-	 ({'tipoBuque'}, {'tonelaje', 'tipoCasco'}),
-	 ({'nombreBuque'}, {'tipoBuque'}),
-	 ({'dniDueño'}, {'nYApDueño'}),
-	 ({'puertoOrigen'}, {'nombrePaisPuertoOrigen'}),
-	 ({'puertoDestino'}, {'nomPaísPuertoDestino'}),
-	 ({'puertoIntermedio'}, {'nombrePaisPuertoIntermedio'}),
-	 ({'nombreBuque', '#Viaje'}, {'puertoOrigen', 'puertoDestino'}),
-	 ({'dniPasajero'}, {'nYApPasajero', 'dirPasajero'}),
-	 ({'nombreBuque', '#Viaje', 'dniPasajero'}, {'puertoInicioPasajero', 'puertoFinalPasajero'}),
-	 ({'nombreBuque', 'fechaPosicionActual'}, {'posicionActual'})
-]
+    dependencies = [
+        ({'tipoBuque'}, {'tonelaje', 'tipoCasco'}),
+        ({'nombreBuque'}, {'tipoBuque'}),
+        ({'dniDueño'}, {'nYApDueño'}),
+        ({'puertoOrigen'}, {'nombrePaisPuertoOrigen'}),
+        ({'puertoDestino'}, {'nomPaísPuertoDestino'}),
+        ({'puertoIntermedio'}, {'nombrePaisPuertoIntermedio'}),
+        ({'nombreBuque', '#Viaje'}, {'puertoOrigen', 'puertoDestino'}),
+        ({'dniPasajero'}, {'nYApPasajero', 'dirPasajero'}),
+        ({'nombreBuque', '#Viaje', 'dniPasajero'}, {'puertoInicioPasajero', 'puertoFinalPasajero'}),
+        ({'nombreBuque', 'fechaPosicionActual'}, {'posicionActual'})
+    ]
 
 
-normalize(relation, dependencies, 'prueba.md')
+    normalize(relation, dependencies, 'prueba.md')
