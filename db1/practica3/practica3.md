@@ -2,35 +2,34 @@
 
 ## Práctica 3
 
-### Para los esquemas propuestos en cada ejercicio aplicar el proceso de normalización
+**Para los esquemas propuestos en cada ejercicio aplicar el proceso de normalización**
 
 Todos los esquemas ya se encuentran en 1FN. Utilizar las claves candidatas y Dependencias Funcionales provistas.
 
-#### 1)
+### 1)
 ```
 LIBRERIAS_ASOCIADAS ( idLibreria, nombreLibreria, idArticulo, nombreArticulo, idComponente,
 nombreComponente, idFabricanteArticulo, idDueño)
 ```
 
-##### Donde:
+**Donde:**
 
-- Para cada librería se conoce su identificador, el cual es único. Además se conoce su nombre, que puede repetirse
-    en distintas librerías.
+- Para cada librería se conoce su identificador, el cual es único. Además se conoce su nombre, que puede repetirse en distintas librerías.
 - Cada librería posee uno o varios dueños (idDueño)
-- Cada librería registra los artículos (idArticulo) que tiene en su inventario. Para cada artículo de una librería se
-    conoce su nombre.
+- Cada librería registra los artículos (idArticulo) que tiene en su inventario. Para cada artículo de una librería se conoce su nombre.
 - Los identificadores de artículos se pueden repetir en diferentes librerías, pero no dentro de una misma librería.
 - Los artículos de una librería están compuestos por diversos componentes (idComponente).
 - Los identificadores de componentes se pueden repetir en diferentes librerías para diferentes artículos, pero no
-    para el mismo componente de un artículo dentro de una misma librería.
+para el mismo componente de un artículo dentro de una misma librería.
 - Para cada componente de un artículo de una librería se conoce su nombre.
 - Cada artículo de una librería tiene varios fabricantes que lo proveen (idFabricanteArticulo)
 
-##### Clave Candidata:
+**Clave Candidata:**
 ```
 Cc1: (idLibreria, idArticulo, idComponente, idFabricanteArtículo, idDueño)
 ```
-##### DFs
+
+**Dependencias funcionales:**
 
 ```
 idLibreria -> nombreLibreria
@@ -38,7 +37,7 @@ idLibreria, idArticulo -> nombreArticulo
 idLibreria, idArticulo, idComponente-> nombreComponente
 ```
 
-#### 2)
+### 2)
 
 ```
 EMPLEADO ( idEmpleado, nombreEmpleado, idOficina, nombreOficina, idResponsableOficina,
@@ -46,27 +45,25 @@ cargaHorariaEnOficina, nombreResponsableOficina, añoIngresoOficina, idActividad
 nombreActividadOficina, dniEmpleado)
 ```
 
-##### Donde:
+**Donde:**
 
 - El idEmpleado es único por oficina. El mismo idEmpleado no se repite en diferentes oficinas
-- Cada empleado tiene asignada una única carga horaria para la oficina en la que trabaja e ingreso a la oficina en
-    un año determinado
+- Cada empleado tiene asignada una única carga horaria para la oficina en la que trabaja e ingreso a la oficina en un año determinado
 - El nombre del empleado no es único, es decir puede haber más de un “Juan Perez” trabajando en una oficina
-- El nombre del responsable de la oficina no es único, es decir puede haber más de un “Juan Perez” responsable
-    de una oficina
+- El nombre del responsable de la oficina no es único, es decir puede haber más de un “Juan Perez” responsable de una oficina
 - En una oficina existen muchos responsables (tener en cuenta que el esquema ya se encuentra en 1FN)
 - Los responsables de oficina pueden repetirse para diferentes oficinas
 - idActividadEmpleadoOficina es cada actividad que un empleado realiza en la oficina
 
 
-##### Claves candidatas:
+**Claves candidatas:**
 
 ```
 Cc1: (idEmpleado, idResponsableOficina, idActividadEmpleadoOficina)
 Cc2: (dniEmpleado, idResponsableOficina, idActividadEmpleadoOficina)
 ```
 
-##### Dependencias funcionales:
+**Dependencias funcionales:**
 
 ```
 idOficina -> nombreOficina
@@ -76,11 +73,11 @@ dniEmpleado -> nombreEmpleado, idOficina, añoIngresoOficina, idEmpleado, cargaH
 idActividadEmpleadoOficina -> nombreActividadOficina
 ```
 
-### Para los esquemas propuestos en cada ejercicio aplicar el proceso de normalización
+**Para los esquemas propuestos en cada ejercicio aplicar el proceso de normalización**
 
 Tener en cuenta que los esquemas dados ya se encuentran en 1FN.
 
-#### 3)
+### 3)
 
 ```
 INFORME_MEDICO (idMedico, apynMedico, tipoDocM, nroDocM, fechaNacM, matricula, direcciónM, teléfonoM,
@@ -88,7 +85,7 @@ idPaciente, apynPaciente, tipoDocP, nroDocP, fechaNacP, idObraSoc, nroAfiliado, 
 nombreOS, direcciónOS, teléfonoOS, idÓrgano, descripción, idEstudio, resultado, fechaEstudio, informe)
 ```
 
-##### Donde
+**Donde:**
 
 - De cada médico se conoce su nombre y apellido, tipo y número de documento, fecha de nacimiento, matricula,
     dirección y teléfono.
@@ -100,20 +97,20 @@ nombreOS, direcciónOS, teléfonoOS, idÓrgano, descripción, idEstudio, resulta
 - De cada estudio se registra a que paciente pertenece, que médico lo realizo, que órgano se estudio, un
     informe, el resultado y en qué fecha se realizó.
 
-#### 4)
+### 4)
 
 ```
 AEROPUERTO (#aeropuerto, #pista, fecha, #avion)
 ```
 
-##### Donde:
+**Donde:**
 
 - \#aeropuerto y \#avion son únicos, pero el #pista se puede repetir para distintos aeropuertos.
 - fecha representa la fecha de despegue de un avión. Cada avión tiene como máximo un despegue diario en
     un mismo aeropuerto.
 - Un avión puede realizar despegues de distintos aeropuertos
 
-#### 5)
+### 5)
 
 ```
 DISPOSITIVOS (Marca_id, descripMarca, modelo_id, descripModelo, equipo_tipo_id, descripEquipoTipo,
@@ -122,7 +119,7 @@ plan_id, descripPlan, importe, equipo_id, imei, fec_alta, fec_baja, observacione
 fec_alta_linea, fec_baja_linea)
 ```
 
-##### Donde
+**Donde:**
 
 - Para cada equipo interesa conocer su tipo, modelo, imei, fecha en que se dio de alta, fecha en que se da de baja
     y las observaciones que sean necesarias.
@@ -135,7 +132,7 @@ fec_alta_linea, fec_baja_linea)
 - Para cada línea se necesita registrar el número de contrato, que plan posee, la fecha de alta de la línea, la
     fecha de baja, el equipo que la posee y el usuario de la misma.
 
-#### 6)
+### 6)
 
 ```
 TOMAS_FOTOGRAFICAS ( idElemento, descripcionElemento, idFoto, fechaFoto, obturacionCamaraFoto,
@@ -154,14 +151,14 @@ la foto.
     características, pero tener en cuenta que la misma característica NO pertenece a mas de una cámara. Dos
     caracteristicaTecnicasCamara pueden tener la misma descripción pero pertenecerán a cámaras diferentes.
 
-#### 7)
+### 7)
 
 ```
 EMPRESA_COLECTIVO (#Línea, #Ramal, #Colectivo, dniChofer, dniInspector, dniEmpleado, nombreLinea,
 nombreChofer, nombreInspector, nombreEmpleado)
 ```
 
-##### Donde
+**Donde:**
 
 - Una línea posee varios ramales
 - Los #Ramal no se repiten en distintas líneas
@@ -170,7 +167,7 @@ nombreChofer, nombreInspector, nombreEmpleado)
 - Cada colectivo de una línea está asignado a un único ramal.
 - Para cada ramal existe al menos un chofer asignado.
 
-#### 8)
+### 8)
 
 ```
 INTERNACION (codHospital, cantidadHabitaciones, direcciónInternacionPaciente,
@@ -179,7 +176,7 @@ ciudadHospital, directorHospital, fechaInicioInternacion, cantDiasIntenacion, do
 insumoEmpleadoInternación)
 ```
 
-##### Donde
+**Donde:**
 
 - cantidadHabitaciones es la cantidad de habitaciones que hay en cada hospital
 - direcciónInternacionPaciente y telefonoInternacionPaciente, indican la dirección y el teléfono que deja un
@@ -192,14 +189,14 @@ insumoEmpleadoInternación)
 - Un paciente en la misma fecha no puede estar internado en diferentes hospitales
 - En un domicilioHospital de una ciudad existe un único hospital
 
-#### 9)
+### 9)
 
 ```
 INFRACCIONES_REALIZADAS (#auto, modeloAuto, #cedula, #conductor, fechaVto, #propietario, #infraccion,
 fechaInfraccion, tipoInfraccion)
 ```
 
-##### Donde
+**Donde:**
 
 - un auto tiene una o más cédulas asociadas que corresponden a los conductores autorizados. Cada cédula se
     asocia a un único auto y a un único conductor, y tiene una fecha de vencimiento.
@@ -209,7 +206,7 @@ fechaInfraccion, tipoInfraccion)
 - de cada infracción que se labra se registra el número de cedula del conductor del auto. Además se conoce la fecha y el tipo de infracción.
 
 
-#### 10)
+### 10)
 
 ```
 RESERVA (#Reserva, #Agencia, nombreAgencia, fechaReservaVuelo, ciudadOrigen, ciudadDestino,
@@ -218,7 +215,7 @@ fechaLlegada, horaPartida, horaLlegada, modeloAvión, #Asiento, tipoComida, comp
 telCompañía)
 ```
 
-##### Donde
+**Donde:**
 
 - Una reserva puede involucrar uno o varios pasajeros (por ejemplo un tour).
 - Si bien todos los pasajeros de una reserva viajan en la misma clase del mismo vuelo, cada uno de ellos decide el
@@ -241,7 +238,7 @@ telCompañía)
     puede trabajar en más de una compañía, una compañía puede tener más de una dirección y en cada dirección
     de una compañía puede haber más de un teléfono.
 
-#### 11)
+### 11)
 
 ```
 BUQUE (nombreBuque, nYApDueño, dniDueño, tipoBuque, tonelaje, tipoCasco, #Viaje, puertoOrigen,
@@ -250,7 +247,7 @@ nombrePaisPuertoIntermedio, posicionActual, fechaPosicionActual, nYApPasajero, d
 puertoInicioPasajero, puertoFinalPasajero)
 ```
 
-##### Donde
+**Donde:**
 
 - El #Viaje es un número consecutivo que identifica cada partida de cada buque.
 - Un buque hace varios viajes. El #Viaje se puede repetir para distintos buques
