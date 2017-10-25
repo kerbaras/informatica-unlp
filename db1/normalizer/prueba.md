@@ -6,39 +6,39 @@ Se buscand dependencias funcionales en la relacion para luego determinar las cla
 
 **Dependencias funcionales:**
 ```
-df1: {tipoBuque}-->{tipoCasco, tonelaje}
+df1: {tipoBuque}-->{tonelaje, tipoCasco}
 df2: {nombreBuque}-->{tipoBuque}
 df3: {dniDueño}-->{nYApDueño}
-df4: {nombreBuque, #Viaje}-->{puertoOrigen, puertoDestino}
-df5: {puertoOrigen}-->{nombrePaisPuertoOrigen}
-df6: {puertoDestino}-->{nomPaísPuertoDestino}
-df7: {puertoIntermedio}-->{nombrePaisPuertoIntermedio}
+df4: {puertoOrigen}-->{nombrePaisPuertoOrigen}
+df5: {puertoDestino}-->{nomPaísPuertoDestino}
+df6: {puertoIntermedio}-->{nombrePaisPuertoIntermedio}
+df7: {#Viaje, nombreBuque}-->{puertoOrigen, puertoDestino}
 df8: {dniPasajero}-->{nYApPasajero, dirPasajero}
-df9: {nombreBuque, dniPasajero, #Viaje}-->{puertoInicioPasajero, puertoFinalPasajero}
+df9: {#Viaje, dniPasajero, nombreBuque}-->{puertoFinalPasajero, puertoInicioPasajero}
 df10: {fechaPosicionActual, nombreBuque}-->{posicionActual}
 ```
 **Clave Candidata:**
 ```
-CC: {dniPasajero, puertoIntermedio, #Viaje, fechaPosicionActual, nombreBuque, dniDueño}
+CC: {puertoIntermedio, dniDueño, nombreBuque, #Viaje, dniPasajero, fechaPosicionActual}
 ```
 
 Se plantea ahora una nueva relacion  `R0`  para realizar el proceso de normalizacion:
 
 ```markdown
-R0: (**dniPasajero**, **puertoIntermedio**, **#Viaje**, **fechaPosicionActual**, **nombreBuque**, **dniDueño**, puertoInicioPasajero, puertoFinalPasajero, puertoOrigen, tipoCasco, tonelaje, puertoDestino, nYApDueño, nombrePaisPuertoOrigen, dirPasajero, nombrePaisPuertoIntermedio, nYApPasajero, tipoBuque, nomPaísPuertoDestino, posicionActual)
+R0: (**puertoIntermedio**, **dniDueño**, **nombreBuque**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**, nYApDueño, tipoCasco, posicionActual, nombrePaisPuertoOrigen, tipoBuque, dirPasajero, nomPaísPuertoDestino, puertoDestino, nYApPasajero, tonelaje, puertoFinalPasajero, puertoInicioPasajero, puertoOrigen, nombrePaisPuertoIntermedio)
 ```
 
 **¿ `R0`  está en bcnf?**
-No, exite la dependencia funciona `{tipoBuque}-->{tipoCasco, tonelaje}` que no es trivail ni superclave
+No, exite la dependencia funciona `{tipoBuque}-->{tonelaje, tipoCasco}` que no es trivail ni superclave
 Se realiza entonces el particionado de esta relación por medio de dicha dependencia funcioanl
 
 Se proponen los siguientes esquemas:
 
 ```markdown
-R1: (**tipoBuque**, tipoCasco, tonelaje)
+R1: (**tipoBuque**, tonelaje, tipoCasco)
 ```
 ```markdown
-R2: (**dniPasajero**, **puertoIntermedio**, **#Viaje**, **fechaPosicionActual**, **nombreBuque**, **dniDueño**, puertoInicioPasajero, puertoFinalPasajero, puertoOrigen, nombrePaisPuertoOrigen, puertoDestino, nYApDueño, dirPasajero, nombrePaisPuertoIntermedio, nYApPasajero, tipoBuque, nomPaísPuertoDestino, posicionActual)
+R2: (**puertoIntermedio**, **nombreBuque**, **dniDueño**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**, nYApDueño, posicionActual, nombrePaisPuertoOrigen, tipoBuque, dirPasajero, nomPaísPuertoDestino, puertoDestino, nYApPasajero, puertoFinalPasajero, puertoInicioPasajero, puertoOrigen, nombrePaisPuertoIntermedio)
 ```
 
 **a) ¿Perdí información?**
@@ -58,7 +58,7 @@ Se proponen los siguientes esquemas:
 R3: (**nombreBuque**, tipoBuque)
 ```
 ```markdown
-R4: (**dniPasajero**, **puertoIntermedio**, **#Viaje**, **fechaPosicionActual**, **nombreBuque**, **dniDueño**, puertoInicioPasajero, puertoFinalPasajero, puertoOrigen, nombrePaisPuertoOrigen, puertoDestino, dirPasajero, nYApDueño, nombrePaisPuertoIntermedio, nYApPasajero, nomPaísPuertoDestino, posicionActual)
+R4: (**puertoIntermedio**, **dniDueño**, **nombreBuque**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**, nYApDueño, posicionActual, nombrePaisPuertoOrigen, dirPasajero, nomPaísPuertoDestino, puertoDestino, nYApPasajero, puertoFinalPasajero, puertoInicioPasajero, puertoOrigen, nombrePaisPuertoIntermedio)
 ```
 
 **a) ¿Perdí información?**
@@ -78,7 +78,7 @@ Se proponen los siguientes esquemas:
 R5: (**dniDueño**, nYApDueño)
 ```
 ```markdown
-R6: (**dniPasajero**, **puertoIntermedio**, **#Viaje**, **fechaPosicionActual**, **nombreBuque**, **dniDueño**, puertoInicioPasajero, puertoFinalPasajero, puertoOrigen, nombrePaisPuertoOrigen, puertoDestino, dirPasajero, nombrePaisPuertoIntermedio, nYApPasajero, nomPaísPuertoDestino, posicionActual)
+R6: (**puertoIntermedio**, **nombreBuque**, **dniDueño**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**, posicionActual, nombrePaisPuertoOrigen, dirPasajero, nomPaísPuertoDestino, puertoDestino, nYApPasajero, puertoFinalPasajero, puertoInicioPasajero, puertoOrigen, nombrePaisPuertoIntermedio)
 ```
 
 **a) ¿Perdí información?**
@@ -89,109 +89,149 @@ No se perdio ninguna dependencia funcional
 
 
 **¿ `R6`  está en bcnf?**
-No, exite la dependencia funciona `{nombreBuque, #Viaje}-->{puertoOrigen, puertoDestino}` que no es trivail ni superclave
+No, exite la dependencia funciona `{puertoOrigen}-->{nombrePaisPuertoOrigen}` que no es trivail ni superclave
 Se realiza entonces el particionado de esta relación por medio de dicha dependencia funcioanl
 
 Se proponen los siguientes esquemas:
 
 ```markdown
-R7: (**nombreBuque**, **#Viaje**, puertoOrigen, puertoDestino)
+R7: (**puertoOrigen**, nombrePaisPuertoOrigen)
 ```
 ```markdown
-R8: (**dniPasajero**, **puertoIntermedio**, **#Viaje**, **fechaPosicionActual**, **nombreBuque**, **dniDueño**, puertoInicioPasajero, puertoFinalPasajero, nombrePaisPuertoOrigen, dirPasajero, nombrePaisPuertoIntermedio, nYApPasajero, nomPaísPuertoDestino, posicionActual)
+R8: (**puertoIntermedio**, **dniDueño**, **nombreBuque**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**, posicionActual, dirPasajero, nomPaísPuertoDestino, puertoDestino, nYApPasajero, puertoFinalPasajero, puertoInicioPasajero, puertoOrigen, nombrePaisPuertoIntermedio)
 ```
 
 **a) ¿Perdí información?**
 No, ya que la interseccion entre las dos relaciones da el determinate de la dependencia funcional
 
 **b) ¿Perdí dependencias funcionales?**
-Si, se perdieron las dependencias funcionales: `{puertoOrigen}-->{nombrePaisPuertoOrigen}` `{puertoDestino}-->{nomPaísPuertoDestino}`
+No se perdio ninguna dependencia funcional
 
 
 **¿ `R8`  está en bcnf?**
+No, exite la dependencia funciona `{puertoDestino}-->{nomPaísPuertoDestino}` que no es trivail ni superclave
+Se realiza entonces el particionado de esta relación por medio de dicha dependencia funcioanl
+
+Se proponen los siguientes esquemas:
+
+```markdown
+R9: (**puertoDestino**, nomPaísPuertoDestino)
+```
+```markdown
+R10: (**puertoIntermedio**, **nombreBuque**, **dniDueño**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**, posicionActual, dirPasajero, puertoDestino, nYApPasajero, puertoFinalPasajero, puertoInicioPasajero, puertoOrigen, nombrePaisPuertoIntermedio)
+```
+
+**a) ¿Perdí información?**
+No, ya que la interseccion entre las dos relaciones da el determinate de la dependencia funcional
+
+**b) ¿Perdí dependencias funcionales?**
+No se perdio ninguna dependencia funcional
+
+
+**¿ `R10`  está en bcnf?**
 No, exite la dependencia funciona `{puertoIntermedio}-->{nombrePaisPuertoIntermedio}` que no es trivail ni superclave
 Se realiza entonces el particionado de esta relación por medio de dicha dependencia funcioanl
 
 Se proponen los siguientes esquemas:
 
 ```markdown
-R9: (**puertoIntermedio**, nombrePaisPuertoIntermedio)
+R11: (**puertoIntermedio**, nombrePaisPuertoIntermedio)
 ```
 ```markdown
-R10: (**dniPasajero**, **puertoIntermedio**, **#Viaje**, **fechaPosicionActual**, **nombreBuque**, **dniDueño**, puertoInicioPasajero, puertoFinalPasajero, dirPasajero, nombrePaisPuertoOrigen, nYApPasajero, nomPaísPuertoDestino, posicionActual)
+R12: (**puertoIntermedio**, **dniDueño**, **nombreBuque**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**, posicionActual, dirPasajero, puertoDestino, nYApPasajero, puertoFinalPasajero, puertoInicioPasajero, puertoOrigen)
 ```
 
 **a) ¿Perdí información?**
 No, ya que la interseccion entre las dos relaciones da el determinate de la dependencia funcional
 
 **b) ¿Perdí dependencias funcionales?**
-Si, se perdieron las dependencias funcionales: `{puertoOrigen}-->{nombrePaisPuertoOrigen}` `{puertoDestino}-->{nomPaísPuertoDestino}`
+No se perdio ninguna dependencia funcional
 
 
-**¿ `R10`  está en bcnf?**
+**¿ `R12`  está en bcnf?**
+No, exite la dependencia funciona `{#Viaje, nombreBuque}-->{puertoOrigen, puertoDestino}` que no es trivail ni superclave
+Se realiza entonces el particionado de esta relación por medio de dicha dependencia funcioanl
+
+Se proponen los siguientes esquemas:
+
+```markdown
+R13: (**#Viaje**, **nombreBuque**, puertoOrigen, puertoDestino)
+```
+```markdown
+R14: (**puertoIntermedio**, **nombreBuque**, **dniDueño**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**, posicionActual, dirPasajero, nYApPasajero, puertoFinalPasajero, puertoInicioPasajero)
+```
+
+**a) ¿Perdí información?**
+No, ya que la interseccion entre las dos relaciones da el determinate de la dependencia funcional
+
+**b) ¿Perdí dependencias funcionales?**
+No se perdio ninguna dependencia funcional
+
+
+**¿ `R14`  está en bcnf?**
 No, exite la dependencia funciona `{dniPasajero}-->{nYApPasajero, dirPasajero}` que no es trivail ni superclave
 Se realiza entonces el particionado de esta relación por medio de dicha dependencia funcioanl
 
 Se proponen los siguientes esquemas:
 
 ```markdown
-R11: (**dniPasajero**, nYApPasajero, dirPasajero)
+R15: (**dniPasajero**, nYApPasajero, dirPasajero)
 ```
 ```markdown
-R12: (**dniPasajero**, **puertoIntermedio**, **#Viaje**, **fechaPosicionActual**, **nombreBuque**, **dniDueño**, puertoInicioPasajero, puertoFinalPasajero, nombrePaisPuertoOrigen, nomPaísPuertoDestino, posicionActual)
+R16: (**puertoIntermedio**, **dniDueño**, **nombreBuque**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**, puertoFinalPasajero, puertoInicioPasajero, posicionActual)
 ```
 
 **a) ¿Perdí información?**
 No, ya que la interseccion entre las dos relaciones da el determinate de la dependencia funcional
 
 **b) ¿Perdí dependencias funcionales?**
-Si, se perdieron las dependencias funcionales: `{puertoOrigen}-->{nombrePaisPuertoOrigen}` `{puertoDestino}-->{nomPaísPuertoDestino}`
+No se perdio ninguna dependencia funcional
 
 
-**¿ `R12`  está en bcnf?**
-No, exite la dependencia funciona `{nombreBuque, dniPasajero, #Viaje}-->{puertoInicioPasajero, puertoFinalPasajero}` que no es trivail ni superclave
+**¿ `R16`  está en bcnf?**
+No, exite la dependencia funciona `{#Viaje, dniPasajero, nombreBuque}-->{puertoFinalPasajero, puertoInicioPasajero}` que no es trivail ni superclave
 Se realiza entonces el particionado de esta relación por medio de dicha dependencia funcioanl
 
 Se proponen los siguientes esquemas:
 
 ```markdown
-R13: (**nombreBuque**, **dniPasajero**, **#Viaje**, puertoInicioPasajero, puertoFinalPasajero)
+R17: (**#Viaje**, **dniPasajero**, **nombreBuque**, puertoFinalPasajero, puertoInicioPasajero)
 ```
 ```markdown
-R14: (**dniPasajero**, **puertoIntermedio**, **#Viaje**, **fechaPosicionActual**, **nombreBuque**, **dniDueño**, nomPaísPuertoDestino, nombrePaisPuertoOrigen, posicionActual)
+R18: (**puertoIntermedio**, **nombreBuque**, **dniDueño**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**, posicionActual)
 ```
 
 **a) ¿Perdí información?**
 No, ya que la interseccion entre las dos relaciones da el determinate de la dependencia funcional
 
 **b) ¿Perdí dependencias funcionales?**
-Si, se perdieron las dependencias funcionales: `{puertoOrigen}-->{nombrePaisPuertoOrigen}` `{puertoDestino}-->{nomPaísPuertoDestino}`
+No se perdio ninguna dependencia funcional
 
 
-**¿ `R14`  está en bcnf?**
+**¿ `R18`  está en bcnf?**
 No, exite la dependencia funciona `{fechaPosicionActual, nombreBuque}-->{posicionActual}` que no es trivail ni superclave
 Se realiza entonces el particionado de esta relación por medio de dicha dependencia funcioanl
 
 Se proponen los siguientes esquemas:
 
 ```markdown
-R15: (**fechaPosicionActual**, **nombreBuque**, posicionActual)
+R19: (**fechaPosicionActual**, **nombreBuque**, posicionActual)
 ```
 ```markdown
-R16: (**dniPasajero**, **puertoIntermedio**, **#Viaje**, **fechaPosicionActual**, **nombreBuque**, **dniDueño**, nomPaísPuertoDestino, nombrePaisPuertoOrigen)
+R20: (**puertoIntermedio**, **dniDueño**, **nombreBuque**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**)
 ```
 
 **a) ¿Perdí información?**
 No, ya que la interseccion entre las dos relaciones da el determinate de la dependencia funcional
 
 **b) ¿Perdí dependencias funcionales?**
-Si, se perdieron las dependencias funcionales: `{puertoOrigen}-->{nombrePaisPuertoOrigen}` `{puertoDestino}-->{nomPaísPuertoDestino}`
+No se perdio ninguna dependencia funcional
 
 
 El esquema final en en bcnf sera:
 
 ```markdown
-R1: (**tipoBuque**, tipoCasco, tonelaje)
+R1: (**tipoBuque**, tonelaje, tipoCasco)
 ```
 ```markdown
 R3: (**nombreBuque**, tipoBuque)
@@ -200,20 +240,26 @@ R3: (**nombreBuque**, tipoBuque)
 R5: (**dniDueño**, nYApDueño)
 ```
 ```markdown
-R7: (**nombreBuque**, **#Viaje**, puertoOrigen, puertoDestino)
+R7: (**puertoOrigen**, nombrePaisPuertoOrigen)
 ```
 ```markdown
-R9: (**puertoIntermedio**, nombrePaisPuertoIntermedio)
+R9: (**puertoDestino**, nomPaísPuertoDestino)
 ```
 ```markdown
-R11: (**dniPasajero**, nYApPasajero, dirPasajero)
+R11: (**puertoIntermedio**, nombrePaisPuertoIntermedio)
 ```
 ```markdown
-R13: (**nombreBuque**, **dniPasajero**, **#Viaje**, puertoInicioPasajero, puertoFinalPasajero)
+R13: (**#Viaje**, **nombreBuque**, puertoOrigen, puertoDestino)
 ```
 ```markdown
-R15: (**fechaPosicionActual**, **nombreBuque**, posicionActual)
+R15: (**dniPasajero**, nYApPasajero, dirPasajero)
 ```
 ```markdown
-R16: (**dniPasajero**, **puertoIntermedio**, **#Viaje**, **fechaPosicionActual**, **nombreBuque**, **dniDueño**, nomPaísPuertoDestino, nombrePaisPuertoOrigen)
+R17: (**#Viaje**, **dniPasajero**, **nombreBuque**, puertoFinalPasajero, puertoInicioPasajero)
+```
+```markdown
+R19: (**fechaPosicionActual**, **nombreBuque**, posicionActual)
+```
+```markdown
+R20: (**puertoIntermedio**, **dniDueño**, **nombreBuque**, **#Viaje**, **dniPasajero**, **fechaPosicionActual**)
 ```

@@ -218,10 +218,10 @@ dependencies = [
 	 ({'tipoBuque'}, {'tonelaje', 'tipoCasco'}),
 	 ({'nombreBuque'}, {'tipoBuque'}),
 	 ({'dniDueño'}, {'nYApDueño'}),
-	 ({'nombreBuque', '#Viaje'}, {'puertoOrigen', 'puertoDestino'}),
 	 ({'puertoOrigen'}, {'nombrePaisPuertoOrigen'}),
 	 ({'puertoDestino'}, {'nomPaísPuertoDestino'}),
 	 ({'puertoIntermedio'}, {'nombrePaisPuertoIntermedio'}),
+	 ({'nombreBuque', '#Viaje'}, {'puertoOrigen', 'puertoDestino'}),
 	 ({'dniPasajero'}, {'nYApPasajero', 'dirPasajero'}),
 	 ({'nombreBuque', '#Viaje', 'dniPasajero'}, {'puertoInicioPasajero', 'puertoFinalPasajero'}),
 	 ({'nombreBuque', 'fechaPosicionActual'}, {'posicionActual'})
