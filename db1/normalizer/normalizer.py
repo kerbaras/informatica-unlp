@@ -51,9 +51,13 @@ def print_block(text, stream):
     
 def print_list_block(list, stream):
     stream.write('\n')
-    stream.write('\n'.join(list))
+    stream.write('\n'.join([str(e) for e in list]))
     stream.write('\n')
     stream.write('\n')
+
+def print_md_block(list, stream):
+    print_list_block(['```markdown'] + list + ['```'], stream)
+
 def plus(subset, dependencies):
     result = None
     newResult = subset
@@ -170,8 +174,7 @@ def to_bcnf(relation, dependencies, key=None, file=None):
             text.append('')
             text.append('Se proponen los siguientes esquemas:')
             print_list_block(text, file)
-            p1.print_md_block(file)
-            p2.print_md_block(file)
+            print_md_block([p1, p2], file)
             if(loose_information(p1, p2, dependency)):
                 print("Perdi Informacion")
             else:
@@ -190,8 +193,7 @@ def to_bcnf(relation, dependencies, key=None, file=None):
     p0.print_md_block(file)
     bcnf_process(p0)
     print_block('El esquema final en en bcnf sera:', file)
-    for rel in schema:
-        rel.print_md_block(file)
+    print_md_block(schema, file)
 
 
     
