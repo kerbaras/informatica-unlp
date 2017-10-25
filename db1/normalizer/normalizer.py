@@ -1,3 +1,5 @@
+from functools import reduce
+
 def is_trivial(dependency):
     (x, y) = dependency
     return y <= x;
@@ -127,6 +129,18 @@ def part(relation, dependency):
     p2 = relation - y
     return (p1, p2)
 
+def to_3nf(original, dependencies, file=None):
+    print_block(f'Como se pierde información al particionar {original.md_name()}, se lleva la misma a 3NF', file)
+    parts =  []
+    for (x, y) in dependencies:
+        parts.append(Partition(x, y, original.number + len(parts) + 1))
+    
+    if (len([ p for p in parts if (p.key == original.key) ]) < 1):
+        parts.append(Partition(original.key, {}, original.number + len(parts) + 1))
+
+    print_md_block(parts, file)
+    return parts
+
 def to_bcnf(relation, dependencies, key=None, file=None):
     if(key == None):
         key = get_key(relation, dependencies)
@@ -176,11 +190,11 @@ def to_bcnf(relation, dependencies, key=None, file=None):
             print_list_block(text, file)
             print_md_block([p1, p2], file)
             if(loose_information(p1, p2, dependency)):
-                print("Perdi Informacion")
+                for p in to_3nf(original, dependencies, file):
+                    bcnf_process(p)
             else:
-                print("No perdi informacion")
-            bcnf_process(p1)
-            bcnf_process(p2)
+                bcnf_process(p1)
+                bcnf_process(p2)
 
         elif len(dependencies) > 0:
             text.append(f'Si, todas sus dependencias funcionales son o triviales o sus determinantes son superclave')
