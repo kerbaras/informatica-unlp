@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment: 
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - datavolume:/var/lib/mysql
+  
+  admin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8033:80"
+    links:
+      - db
+
+volumes:
+  datavolume:
+    driver: local
