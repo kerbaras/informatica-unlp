@@ -49,14 +49,14 @@ GRANT SELECT, DELETE, UPDATE, CREATE, DROP, INSERT, ALTER ON reparacion_dn.* TO 
 ```SQL
 USE reparacion;
 SELECT dniCliente, nombreApellidoCliente FROM cliente ORDER BY dniCliente ASC;
-#> 20000 rows in set (0.01 sec)
+--> 20000 rows in set (0.01 sec)
 
 USE reparacion_dn;
 SELECT dniCliente, nombreApellidoCliente FROM reparacion ORDER BY dniCliente ASC;
-#> 162252 rows in set (0.07 sec)
+--> 162252 rows in set (0.07 sec)
 
 SELECT DISTINCT dniCliente, nombreApellidoCliente FROM reparacion ORDER BY dniCliente ASC;
-#> 20000 rows in set (1.63 sec)
+--> 20000 rows in set (1.63 sec)
 ```
 
 Se puede observar una gran diferencia en el tiempo de ejecución de las consultas y se aprecia una diferencia en la cantidad de resultados. Esto es por la presencia de dependencias multivaluadas en el esquema no normalizado, las cuales generan duplicación de información.
@@ -66,12 +66,20 @@ Se puede observar una gran diferencia en el tiempo de ejecución de las consulta
 
 ```SQL
 USE reparacion;
-SELECT dniCliente, nombreApellidoCliente FROM cliente c WHERE NOT EXISTS (SELECT * FROM reparacion r WHERE c.dniCliente = r.dniCliente AND c.tarjetaSecundaria = r.tarjetaReparacion);
-#> 11976 rows in set (0.05 sec)
+SELECT dniCliente, nombreApellidoCliente
+FROM cliente c WHERE NOT EXISTS (
+    SELECT * FROM reparacion r 
+    WHERE c.dniCliente = r.dniCliente AND c.tarjetaSecundaria = r.tarjetaReparacion
+);
+--> 11976 rows in set (0.05 sec)
 
 USE reparacion_dn;
-SELECT DISTINCT dniCliente, nombreApellidoCliente FROM reparacion r1 WHERE NOT EXISTS (SELECT * FROM reparacion r2 WHERE r1.dniCliente = r2.dniCliente AND r1.tarjetaSecundaria = r2.tarjetaReparacion);
-#> 11976 rows in set (0.74 sec)
+SELECT DISTINCT dniCliente, nombreApellidoCliente 
+FROM reparacion r1 WHERE NOT EXISTS (
+    SELECT * FROM reparacion r2 
+	WHERE r1.dniCliente = r2.dniCliente AND r1.tarjetaSecundaria = r2.tarjetaReparacion
+);
+--> 11976 rows in set (0.74 sec)
 ```
 
 
@@ -83,14 +91,13 @@ USE reparacion;
 CREATE VIEW sucursalesPorCliente AS
     SELECT c.dniCliente, s.codSucursal
     FROM cliente c INNER JOIN sucursal s ON (c.ciudadCliente = s.ciudadSucursal);
-#> Query OK, 0 rows affected (0.01 sec)
-
+--> Query OK, 0 rows affected (0.01 sec)
 
 USE reparacion_dn;
 CREATE VIEW sucursalesPorCliente 
     AS SELECT c.dniCliente, s.codSucursal 
     FROM reparacion r WHERE (r.ciudadCliente = r.ciudadSucursal)
-#> Query OK, 0 rows affected (0.01 sec)
+--> Query OK, 0 rows affected (0.01 sec)
 ```
 
 
@@ -122,8 +129,8 @@ WHERE c.dniCliente NOT IN (
     )
 )
 LIMIT 100;
-#> 100 rows in set (0.00 sec)
-# 13007 rows in set (0.12 sec)
+--> 100 rows in set (0.00 sec)
+-- 13007 rows in set (0.12 sec)
 
 ```
 
@@ -144,8 +151,8 @@ WHERE c.dniCliente NOT IN  (
     ) 
 )
 LIMIT 100;
-#> 100 rows in set (0.01 sec)
-# 13007 rows in set (0.74 sec)
+--> 100 rows in set (0.01 sec)
+-- 13007 rows in set (0.74 sec)
 ```
 
 Se encontro un gran boost de performance de orden 10 en comparación a las consultas usando count.
@@ -156,10 +163,10 @@ Se encontro un gran boost de performance de orden 10 en comparación a las consu
 USE reparacion;
 
 Select DISTINCT c.dniCliente FROM cliente c INNER JOIN reparacion r ON (r.dniCliente = c.dniCliente) WHERE (r.direccionReparacionCliente = c.domicilioCliente AND r.ciudadReparacionCliente = c.ciudadCliente;
-#> 18307 rows in set (0.05 sec)
+--> 18307 rows in set (0.05 sec)
 
 Select DISTINCT c.dniCliente FROM cliente c INNER JOIN reparacion r ON (r.dniCliente = c.dniCliente AND r.direccionReparacionCliente = c.domicilioCliente AND r.ciudadReparacionCliente = c.ciudadCliente;
-#> 18307 rows in set (0.04 sec)
+--> 18307 rows in set (0.04 sec)
 
 SELECT dniCliente
 FROM cliente
@@ -169,11 +176,11 @@ WHERE EXISTS
    	WHERE cliente.domicilioCliente = reparacion.direccionReparacionCLiente
        AND cliente.ciudadCliente = reparacion.ciudadReparacionCliente
        AND cliente.dniCliente = reparacion.dniCliente);
-#> 18307 rows in set (0.05 sec)
+--> 18307 rows in set (0.05 sec)
 
 USE reparacion_dn;
 Select DISTINCT dniCliente FROM reparacion WHERE direccionReparacionCliente = domicilioCliente AND ciudadReparacionCliente = ciudadCliente;
-#> 18307 rows in set (0.09 sec)
+--> 18307 rows in set (0.09 sec)
 ```
 
 
@@ -189,14 +196,14 @@ FROM reparacion r INNER JOIN repuestoreparacion re ON (
 )
 GROUP BY r.dniCliente, r.fechaInicioReparacion
 HAVING COUNT(DISTINCT re.repuestoReparacion) > 3;
-#> 3964 rows in set (0.09 sec)
+--> 3964 rows in set (0.09 sec)
 
 USE reparacion_dn;
 SELECT dniCliente, codSucursal, fechaInicioReparacion, COUNT(DISTINCT repuestoReparacion)
 FROM reparacion
 GROUP BY dniCliente, fechaInicioReparacion
 HAVING COUNT(DISTINCT repuestoReparacion) > 3;
-#> 3964 rows in set (0.16 sec)
+--> 3964 rows in set (0.16 sec)
 ```
 
 ___
@@ -210,12 +217,12 @@ USE reparacion;
 ### 8) Agregar la siguiente tabla:
 
 ```markdown
-REPARACIONESPORCLIENTE
-    idRC: *int(11)* **PK** *AI*
-    dniCliente: *int(11)*
-    cantidadReparaciones: *int(11)*
-    fechaultimaactualizacion: *datetime*
-    usuario: *char(16)*
+REPARACIONESPORCLIENTE:
+   idRC: *int(11)* **PK** *AI*
+   dniCliente: *int(11)*
+   cantidadReparaciones: *int(11)*
+   fechaultimaactualizacion: *datetime*
+   usuario: *char(16)*
 ```
 
 ```SQL
@@ -227,7 +234,7 @@ CREATE TABLE REPARACIONESPORCLIENTE (
     usuario CHAR(16) NOT NULL, 
     PRIMARY KEY (idRC)
 );
-#> Query OK, 0 rows affected (0.01 sec)
+--> Query OK, 0 rows affected (0.01 sec)
 ```
 
 ### 9) Stored procedures
@@ -265,18 +272,18 @@ BEGIN
     CLOSE cur;
     COMMIT;
 END;
-#> Query OK, 0 rows affected (0.00 sec)
+--> Query OK, 0 rows affected (0.00 sec)
 ```
 
 ### b) Ejecute el stored procedure.
 
 ```SQL
 CALL logReparaciones();
-#> Query OK, 0 rows affected (0.41 sec)
+--> Query OK, 0 rows affected (0.41 sec)
 ```
 
 
-### 10) Crear un trigger de modo que al insertar un dato en la tabla REPARACION, se actualice la cantidad de reparaciones del cliente, la fecha de actualización y el usuario responsable de la misma (actualiza la tabla REPARACIONESPORCLIENTE).
+### 10) Crear un trigger de modo que al insertar un dato en la tabla `REPARACION`, se actualice la cantidad de reparaciones del cliente, la fecha de actualización y el usuario responsable de la misma (actualiza la tabla `REPARACIONESPORCLIENTE`).
 
 ```SQL
 CREATE TRIGGER after_reparacion_insert
@@ -299,7 +306,7 @@ END;
 
 
 
-### 11) Crear un stored procedure que sirva para agregar una reparación, junto con una revisión de un empleado (REVISIONREPARACION) y un repuesto (REPUESTOREPARACION) relacionados dentro de una sola transacción. El stored procedure debe recibir los siguientes parámetros: dniCliente, codSucursal, fechaReparacion, cantDiasReparacion, telefonoReparacion, empleadoReparacion, repuestoReparacion.
+### 11) Crear un stored procedure que sirva para agregar una reparación, junto con una revisión de un empleado (`REVISIONREPARACION`) y un repuesto (`REPUESTOREPARACION`) relacionados dentro de una sola transacción. El stored procedure debe recibir los siguientes parámetros: `dniCliente`, `codSucursal`, `fechaReparacion`, `cantDiasReparacion`, `telefonoReparacion`, `empleadoReparacion`, `repuestoReparacion`.
 
 ```SQL
 CREATE PROCEDURE addRep(IN dni INT(11), IN sucursal INT, IN fecha DATETIME,
@@ -388,7 +395,7 @@ En el campo REF vemos que una fila está en NULL, y las otras muestran atributos
 
 Por ende, vemos que en la fila que está en NULL no se está usando ninguna columna, por ende ningún index.
 
- b) Observe en particular el atributo type ¿cómo se están aplicando los JOIN entre las tablas involucradas?
+#### b) Observe en particular el atributo type ¿cómo se están aplicando los JOIN entre las tablas involucradas?
 
 Index: Escaneo completo de la tabla para cada combinación de filas de las tablas previas, revisando únicamente el índice.
 
@@ -396,13 +403,13 @@ Ref: Todas las filas con valores en el índice que coincidan serán leídos desd
 
 Eq_ref: Una fila de la tabla 1 será leída por cada combinación de filas de la tabla 2. Este tipo es usado cuando todas las partes de un índice se usan en la consulta y el índice es UNIQUE o PRIMARY KEY.
 
- c) Según lo que observó en los puntos anteriores, ¿qué mejoras se pueden realizar para optimizar la consulta?
+#### c) Según lo que observó en los puntos anteriores, ¿qué mejoras se pueden realizar para optimizar la consulta?
 
 Primero que nada, vemos que la fila en la cual se observa mayor cantidad de rows, es la fila en la cual se usa 'index', y 'ref' es null.
 
 Deberíamos usar indices.
 
- d) Aplique las mejoras propuestas y vuelva a analizar el plan de ejecución. ¿Qué cambios observa?
+#### d) Aplique las mejoras propuestas y vuelva a analizar el plan de ejecución. ¿Qué cambios observa?
 
 Como se puede observar, elegí crear distintos indices, como también modificar la consulta. Respecto a esta consulta en particular, solo con agregar el índice "empleado", la cantidad de rows disminuyó mucho. Sin embargo, se añadieron otros índices debido a que ante un hipotético crecimiento de la base de datos en cuanto a datos que contiene, podrían beneficiarme en otras consultas.
 
@@ -432,24 +439,24 @@ EXPLAIN
 
 ### 15) Análisis de permisos.
 
-### a) Para cada punto de la práctica incluido en el cuadro, ejecutarlo con cada uno de los usuarios creados en el punto 1 e indicar con cuáles fue posible realizar la operación.
+#### a) Para cada punto de la práctica incluido en el cuadro, ejecutarlo con cada uno de los usuarios creados en el punto 1 e indicar con cuáles fue posible realizar la operación.
 
-### b) Determine para cada caso, cuál es el conjunto de permisos mínimo.
+| Punto |  r   | rdn  | r\_select | rdn\_select | r\_update | rdn\_update | r\_schema | rdn\_schema |
+| :---: | :--: | :--: | :-------: | :---------: | :-------: | :---------: | :-------: | :---------: |
+|   2   | :o:  | :o:  |    :o:    |     :o:     |    :x:    |     :x:     |    :x:    |     :x:     |
+|   3   |      |      |           |             |           |             |           |             |
+|   4   |      |      |           |             |           |             |           |             |
+|   5   |      |      |           |             |           |             |           |             |
+|   6   |      |      |           |             |           |             |           |             |
+|   7   |      |      |           |             |           |             |           |             |
+|   8   |      |      |           |             |           |             |           |             |
+|   9   |      |      |           |             |           |             |           |             |
+|  10   |      |      |           |             |           |             |           |             |
+|  11   |      |      |           |             |           |             |           |             |
+|  12   |      |      |           |             |           |             |           |             |
+|  13   |      |      |           |             |           |             |           |             |
+|  14   |      |      |           |             |           |             |           |             |
 
-| Punto | r | rdn | r\_select | rdn\_select | r\_update | rdn\_update | r\_schema | rdn\_schema |
-|:-----:|:-:|:---:|:---------:|:-----------:|:---------:|:-----------:|:---------:|:-----------:|
-| 2     |:o:| :o: | :o:       | :o:         | :x:       | :x:         | :x:       | :x:         |
-| 3     |   |     |           |             |           |             |           |             |
-| 4     |   |     |           |             |           |             |           |             |
-| 5     |   |     |           |             |           |             |           |             |
-| 6     |   |     |           |             |           |             |           |             |
-| 7     |   |     |           |             |           |             |           |             |
-| 8     |   |     |           |             |           |             |           |             |
-| 9     |   |     |           |             |           |             |           |             |
-| 10    |   |     |           |             |           |             |           |             |
-| 11    |   |     |           |             |           |             |           |             |
-| 12    |   |     |           |             |           |             |           |             |
-| 13    |   |     |           |             |           |             |           |             |
-| 14    |   |     |           |             |           |             |           |             |
+#### b) Determine para cada caso, cuál es el conjunto de permisos mínimo.
 
-### c) Desde su punto de vista y contemplando lo visto en la materia, explique cuál es la manera óptima de asignar permisos a los usuarios.
+#### c) Desde su punto de vista y contemplando lo visto en la materia, explique cuál es la manera óptima de asignar permisos a los usuarios. 
