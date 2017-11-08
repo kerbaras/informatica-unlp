@@ -97,9 +97,9 @@ CREATE VIEW sucursalesPorCliente
 
 ### 5) En la base normalizada, hallar los clientes que dejaron vehículos a reparar en todas las sucursales de la ciudad en la que viven
 
-*Restricción:* resolver este ejercicio sin usar la cláusula “NOT EXIST”.
+**Restricción:** resolver este ejercicio sin usar la cláusula “NOT EXIST”.
 
-*Nota:* limite su consulta a los primeros 100 resultados, caso contrario el tiempo que tome puede ser excesivo.
+**Nota:** limite su consulta a los primeros 100 resultados, caso contrario el tiempo que tome puede ser excesivo.
 
 ```SQL
 USE reparacion;
@@ -201,7 +201,7 @@ HAVING COUNT(DISTINCT repuestoReparacion) > 3;
 
 ___
 
-*En la base normalizada realice los siguientes ejercicios:*
+**En la base normalizada realice los siguientes ejercicios:**
 
 ```SQL
 USE reparacion;
@@ -211,11 +211,11 @@ USE reparacion;
 
 ```markdown
 REPARACIONESPORCLIENTE
-    idRC: _int(11)_ *PK* _AI_
-    dniCliente: _int(11)_
-    cantidadReparaciones: _int(11)_
-    fechaultimaactualizacion: _datetime_
-    usuario: _char(16)_
+    idRC: *int(11)* **PK** *AI*
+    dniCliente: *int(11)*
+    cantidadReparaciones: *int(11)*
+    fechaultimaactualizacion: *datetime*
+    usuario: *char(16)*
 ```
 
 ```SQL
