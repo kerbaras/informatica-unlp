@@ -411,15 +411,21 @@ A su vez, también modifiqué la consulta. Para empezar, notamos que la tabla "c
 Varias cuestiones a analizar en el WHERE en la consulta original se han movido al FROM. Esto es debido a que estoy intentando que en resultados intermedios de la consulta, me queden conjuntos más chicos (es decir, estoy filtrando). Por ende, las últimas operaciones se hacen sobre conjuntos mas chicos, y por ende, tenemos mejor performance.
 
 ```SQL
-CREATE INDEX metros_cuadrados ON sucursal (m2);
-CREATE INDEX ciudad ON sucursal (ciudadsucursal);
-CREATE INDEX empleado ON revisionreparacion (empleadoreparacion);
-CREATE INDEX r_fechainicio ON reparacion (fechaInicioReparacion);
+CREATE INDEX sucursal_ciudad_m2
+    ON sucursal (ciudadsucursal, m2);
+CREATE INDEX empleadoreparacion_revisionreparacion
+    ON revisionreparacion (empleadoreparacion);
+CREATE INDEX reparacion_fechaInicioReparacion
+    ON reparacion (fechaInicioReparacion);
 
 EXPLAIN 
-SELECT COUNT(r.dniCliente) 
-FROM reparacion r INNER JOIN (SELECT codsucursal FROM sucursal WHERE m2<200 AND ciudadsucursal='La Plata') AS s ON (r.codsucursal = s.codsucursal), revisionreparacion rv 
-WHERE r.dnicliente=rv.dnicliente AND r.fechainicioreparacion=rv.fechainicioreparacion AND empleadoreparacion = 'Maidana';
+    SELECT COUNT(r.dniCliente) 
+    FROM reparacion r INNER JOIN
+        (SELECT codsucursal FROM sucursal WHERE m2<200 AND ciudadsucursal='La Plata') s
+            ON(r.codsucursal = s.codsucursal) INNER JOIN
+        revisionreparacion rv 
+            ON(r.dnicliente=rv.dnicliente AND r.fechainicioreparacion=rv.fechainicioreparacion) 
+    WHERE empleadoreparacion = 'Maidana';
 ```
 
 
@@ -429,5 +435,21 @@ WHERE r.dnicliente=rv.dnicliente AND r.fechainicioreparacion=rv.fechainiciorepar
 ### a) Para cada punto de la práctica incluido en el cuadro, ejecutarlo con cada uno de los usuarios creados en el punto 1 e indicar con cuáles fue posible realizar la operación.
 
 ### b) Determine para cada caso, cuál es el conjunto de permisos mínimo.
+
+| Punto | r | rdn | r\_select | rdn\_select | r\_update | rdn\_update | r\_schema | rdn\_schema |
+| -----:|:-:|:---:|:---------:|:-----------:|:---------:|:-----------:|:---------:| -----------:|
+| 2     |:o:| :o: | :o:       | :o:         | :x:       | :x:         | :x:       | :x:         |
+| 3     |   |     |           |             |           |             |           |             |
+| 4     |   |     |           |             |           |             |           |             |
+| 5     |   |     |           |             |           |             |           |             |
+| 6     |   |     |           |             |           |             |           |             |
+| 7     |   |     |           |             |           |             |           |             |
+| 8     |   |     |           |             |           |             |           |             |
+| 9     |   |     |           |             |           |             |           |             |
+| 10    |   |     |           |             |           |             |           |             |
+| 11    |   |     |           |             |           |             |           |             |
+| 12    |   |     |           |             |           |             |           |             |
+| 13    |   |     |           |             |           |             |           |             |
+| 14    |   |     |           |             |           |             |           |             |
 
 ### c) Desde su punto de vista y contemplando lo visto en la materia, explique cuál es la manera óptima de asignar permisos a los usuarios.
