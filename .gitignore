@@ -1,0 +1,36 @@
+
+##==> TTPS Ruby <==##
+
+*.rbc
+capybara-*.html
+.rspec
+log
+tmp
+public/system
+coverage/
+spec/tmp
+*.orig
+rerun.txt
+pickle-email-*.html
+
+config/initializers/secret_token.rb
+
+.env
+
+.bundle
+vendor/bundle
+
+.rvmrc
+
+vendor/assets/bower_components
+*.bowerrc
+bower.json
+
+.powenv
+
+.byebug_history
+
+# IDEs
+
+.vscode
+.idea
