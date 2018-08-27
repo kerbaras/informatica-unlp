@@ -3,6 +3,7 @@
 \usepackage[a4paper, margin=1.27cm, bottom=1.8cm]{geometry}
 \usepackage[spanish]{babel}
 \usepackage{amsfonts}
+\usepackage{amssymb}
 
 \title{Matemáticas 4 - TP1}
 \author{Matías Pierobón}
@@ -16,16 +17,40 @@
 \item 
 \begin{enumerate}
 	\item $z \in \mathbb{Z} \leftrightarrow 2 z \in \mathbb{Z}$: Verdadero
-	\item $z \in \mathbb{Z} \leftrightarrow -z \in \mathbb{N}$: Falso - $\left(\exists x\right) \left(x = 1\right) : \left(x \in \mathbb{Z}\right) \land \left(-x \notin \mathbb{N}\right)$
+	\item $z \in \mathbb{Z} \leftrightarrow -z \in \mathbb{N}$: Falso - $\left(\exists x\right) \left(x = 1\right) \mid \left(x \in \mathbb{Z}\right) \land \left(-x \notin \mathbb{N}\right)$
 	\item $z \in \mathbb{Z} \leftrightarrow z^2 \in \mathbb{Z}$: Verdadero
-	\item $z \in \mathbb{Z} \leftrightarrow z^2 = 1 \in \mathbb{Z}$: Falso - $\left(\exists x\right) \left(x = 2\right) : \left(x \in \mathbb{Z}\right) \land \left(x^2 = 4 \neq 1\right)$
+	\item $z \in \mathbb{Z} \leftrightarrow z^2 = 1 \in \mathbb{Z}$: Falso - $\left(\exists x\right) \left(x = 2\right) \mid \left(x \in \mathbb{Z}\right) \land \left(x^2 = 4 \neq 1\right)$
 	\item $z \in \mathbb{N} \leftrightarrow z^2 \in \mathbb{N}$: Verdadero
 	\item $z \in \mathbb{N} \leftrightarrow -z \notin \mathbb{N}$: Verdadero (sii $0 \notin \mathbb{N}$)
 	\item $z \in \mathbb{N} \leftrightarrow 2z \in \mathbb{N}$: Verdadero
 	\item $z \in \mathbb{N} \leftrightarrow z + 1 > 0$: Verdadero
 \end{enumerate}
+
+\item
+\begin{enumerate}
+	\item
+		$\left\{\ z \in \mathbb{Z} \mid z = 2 x + 1 \textbf{  para  } -5 \leq x \leq 4 \right\}$\\
+		$\left\{\ z \in \mathbb{Z} \mid z = 2 x - 1 \textbf{  para  } -4 \leq x \leq 5 \right\}$
+	\item
+		$\left\{\ z \in \mathbb{Z} \mid z = 4 x + 3 \textbf{  para  } -3 \leq x \leq 1 \right\}$\\
+		$\left\{\ z \in \mathbb{Z} \mid z = 4 x - 3 \textbf{  para  } -1 \leq x \leq 3 \right\}$
+	\item
+		$\left(\exists m \in \mathbb{Z}\right)\left(\exists t \in \mathbb{Z}\right)\left(4m + 1 = 4 t + 3\right)$ ? \\
+		$\left(\exists m \in \mathbb{Z}\right)\left(\exists t \in \mathbb{Z}\right)\left(m = \frac{2t + 1}{2}\right)$ ? \\
+		$ \left(\forall t \in \mathbb{Z}\right)\left(2t + 1 \texttt{ es impar}\right)$\\
+		$\therefore \left(\nexists m \in \mathbb{Z}\right)\left(\exists t \in \mathbb{Z}\right)\left(4m + 1 = 4 t + 3\right)$\\
+		No hay números enteros que puedan escribirse de las dos formas
+	\item Supongo que $\left(\exists m \in \mathbb{Z}\right)\left(m \texttt{ es par} \land m \texttt{ es impar}\right)$\\
+	Sea $k \in \mathbb{Z}$ cualquiera, $m = 2k + 1$ (por ser impar)\\
+	Como m es par, $2|m$. Es decir $\left(\exists t \in \mathbb{Z}\right)\left(m = 2*t\right)$\\
+	$2k + 1 = 2t$\\
+	$t = k + \frac{1}{2}$\\
+	Como $\frac{1}{2} \not \in \mathbb{Z} \rightarrow t \not \in \mathbb{Z}$\\
+	$t \in \mathbb{Z} \land t \not \in \mathbb{Z}$\\
+	$\therefore \left(\nexists m \in \mathbb{Z}\right)\left(m \texttt{ es par} \land m \texttt{ es impar}\right)$
+	  
 \end{enumerate}
 
-
+\end{enumerate}
 
 \end{document}
