@@ -42,3 +42,8 @@
    - Uso ocasional de una PC que posiblemente esté infectada con algún malware: NO
    - Uso de correo institucional utilizando POP3 e IMAP: SI
    - Acceso a sitio WEB para compras online a través de HTTP: SI 
+
+5. ¿Que es MITM? ¿Todos los sniffing requieren de un MITM? 
+   Man-in-the-middle (MITM) is an attack where the attacker secretly relays and possibly alters the communication between two parties who believe they are directly communicating with each other.
+ 
+   No, algunos sniffing no requieren de un MITM, ya que la topologia de su red les permite interceptar el tráfico usando su placa de red en modo promiscuo (Usualmente tramas conectadas a un Hub).
