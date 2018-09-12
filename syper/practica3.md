@@ -45,7 +45,7 @@
 
 5. ¿Que es MITM? ¿Todos los sniffing requieren de un MITM? 
    Man-in-the-middle (MITM) is an attack where the attacker secretly relays and possibly alters the communication between two parties who believe they are directly communicating with each other.
- 
+
    No, algunos sniffing no requieren de un MITM, ya que la topologia de su red les permite interceptar el tráfico usando su placa de red en modo promiscuo (Usualmente tramas conectadas a un Hub).
 
 ### Conceptos generales de redes y servicios de red
@@ -55,3 +55,9 @@
    - Inundando la red con tramas Ethernet con MACs origen aleatorias (MAC Flooding): SWITCH
    - Enviando respuestas ARP falsas (ARP Spoofing): PC
    - Enviando paquetes ICMP-REDIRECTs falsos (ICMP-REDIRECT attack): ROUTER
+
+### Sniffing en una red switcheada
+
+7. Cree una topología como la siguiente para realizar distintos tipos de ataques de sniffing:
+
+![Topología de la red a atacar](./p3-topologia.png)
