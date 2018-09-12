@@ -26,3 +26,10 @@
      - Información personal sensible (Dirección, DNI, Teléfono)
      - Credenciales
 
+2. Para cada una de las situaciones del ejercicio 1: ¿Qué contramedidas se podrían llevar a cabo para minimizar el riesgo?
+
+3. ¿Qué es un sniffer? Un analizador de protocolos, ¿puede ser usado como sniffer?
+
+   En informática, un Sniffer es un programa de captura de las tramas de una red de computadoras con el fin de observar su contenido.
+
+   Un analizador de protocolos puede ser considerado como sniffer, cuando este se usa para espiar el tráfico de la red.
