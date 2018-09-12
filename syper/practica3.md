@@ -62,14 +62,14 @@
 
 ![Topología de la red a atacar](https://raw.githubusercontent.com/matias-pierobon/informatica-unlp/master/syper/p3-Topologia.png)
 
-   1. Desde la PC Atacante2, realice un ataque de sniffing.
+   - Desde la PC Atacante2, realice un ataque de sniffing.
 
 ```bash
 root@Atacante2$ ip link eth0 promic on
 root@Atacante2$ tcpdump -i eth0
 ```
 
-   2. Desde la PC Atacante1, realice un ataque de sniffing. 
+   - Desde la PC Atacante1, realice un ataque de sniffing. 
 
 ```bash
 root@Atacante1$ arpspoof -i eth0 -t 10.0.0.21 10.0.0.1
