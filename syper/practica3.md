@@ -7,7 +7,7 @@
 1. Para cada una de las siguientes situaciones identifique la información que corre riesgo de
    perder su confidencialidad:
    - Olvidar mi celular en lo de un amigo
-   -  Perder el celular
+   - Perder el celular
    - Perder la notebook:
      - Fotos
      - Contactos
@@ -33,3 +33,12 @@
    En informática, un Sniffer es un programa de captura de las tramas de una red de computadoras con el fin de observar su contenido.
 
    Un analizador de protocolos puede ser considerado como sniffer, cuando este se usa para espiar el tráfico de la red.
+
+4. ¿En cuáles de las situaciones del ejercicio 1 tiene sentido el uso de un sniffer?
+   - Olvidar mi celular en lo de un amigo: NO
+   - Perder el celular: NO
+   - Perder la notebook: NO
+   - Presencia de un visitante ocasional en la oficina en la que trabajo: NO
+   - Uso ocasional de una PC que posiblemente esté infectada con algún malware: NO
+   - Uso de correo institucional utilizando POP3 e IMAP: SI
+   - Acceso a sitio WEB para compras online a través de HTTP: SI 
