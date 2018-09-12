@@ -60,4 +60,4 @@
 
 7. Cree una topología como la siguiente para realizar distintos tipos de ataques de sniffing:
 
-![Topología de la red a atacar](./p3-topologia.png)
+![Topología de la red a atacar](https://raw.githubusercontent.com/matias-pierobon/informatica-unlp/master/syper/p3-Topologia.png)
